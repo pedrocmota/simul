@@ -1,14 +1,26 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import {ChakraProvider} from '@chakra-ui/react'
-import App from './App'
+import {
+  ChakraProvider,
+  ThemeProvider,
+  theme,
+  ColorModeProvider,
+  CSSReset
+} from '@chakra-ui/react'
+import {Main} from './Main'
 import './global.css'
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 )
+
 root.render(
   <ChakraProvider>
-    <App />
+    <ThemeProvider theme={theme}>
+      <ColorModeProvider>
+        <CSSReset />
+        <Main />
+      </ColorModeProvider>
+    </ThemeProvider>
   </ChakraProvider>
 )
