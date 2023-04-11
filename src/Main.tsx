@@ -244,7 +244,11 @@ const HomeTab: React.FunctionComponent = () => {
         position="fixed"
         bottom="80px"
       >
-        <Link href="https://github.com/pedrocmota/simul" color={colorMode === 'light' ? '#868686' : '#A3A3A379'}>
+        <Link
+          href="https://github.com/pedrocmota/simul"
+          target="_blank"
+          color={colorMode === 'light' ? '#868686' : '#A3A3A379'}
+        >
           Veja no Github
         </Link>
       </Flex>

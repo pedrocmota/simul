@@ -6,8 +6,7 @@ import {
 import {useDisclosureManager} from '../../contexts/DisclosureManager'
 
 const ConfigPopup: React.FunctionComponent = () => {
-  const {callback} = useDisclosureManager().disclosuresData.current['configs']
-  const disclosure = useDisclosureManager().disclosures.config
+  const {callback, disclosure} = useDisclosureManager().getPopupData('configs')
   const {colorMode, setColorMode} = useColorMode()
 
   const onClose = () => {

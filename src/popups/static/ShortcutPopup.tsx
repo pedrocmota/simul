@@ -6,8 +6,7 @@ import {
 import {useDisclosureManager} from '../../contexts/DisclosureManager'
 
 const ShortcutPopup: React.FunctionComponent = () => {
-  const {callback} = useDisclosureManager().disclosuresData.current['shortcuts']
-  const disclosure = useDisclosureManager().disclosures.shortcuts
+  const {callback, disclosure} = useDisclosureManager().getPopupData('shortcuts')
 
   const onClose = () => {
     disclosure.onClose()

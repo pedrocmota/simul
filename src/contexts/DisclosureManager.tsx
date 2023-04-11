@@ -5,6 +5,7 @@ import {ShortcutPopup} from '../popups/static/ShortcutPopup'
 
 export interface IDisclosureContext {
   disclosuresData: React.MutableRefObject<IPopupsDataElement>,
+  getPopupData: (id: string) => any,
   openPopup: (id: string, params?: any, callback?: () => void) => void,
   disclosures: {
     config: UseDisclosureProps,
@@ -37,9 +38,22 @@ export const useDisclosureManager = () => useContext(DisclosureContext)
 export const DisclosureProvider: React.FunctionComponent<IDisclosureProviderProps> = (props) => {
   const disclosuresData = useRef<IPopupsDataElement>({})
 
-
   const ConfigPopupDisclosure = useDisclosure()
   const ShortcutPopupDisclosure = useDisclosure()
+
+  const getPopupData = (id: string) => {
+    return {
+      ...disclosuresData.current[id],
+      disclosure: (() => {
+        if (id === 'configs') {
+          return ConfigPopupDisclosure
+        }
+        if (id === 'shortcuts') {
+          return ShortcutPopupDisclosure
+        }
+      })()
+    }
+  }
 
   const openPopup = (id: string, params?: any, callback?: () => void) => {
     disclosuresData.current[id] = {
@@ -58,6 +72,7 @@ export const DisclosureProvider: React.FunctionComponent<IDisclosureProviderProp
   return (
     <DisclosureContext.Provider value={{
       disclosuresData,
+      getPopupData,
       openPopup,
       disclosures: {
         config: ConfigPopupDisclosure,
