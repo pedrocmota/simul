@@ -1,46 +1,50 @@
 import React, {useState, useContext, createContext} from 'react'
 import {v4 as uuid} from 'uuid'
 import {IInstancePrimaryData} from './instanceInterfaces'
-import {useStateCallback} from '../hooks/useStateWithCallback'
 
 export interface IInstanceContext {
-  instancePrimaryData: IInstancePrimaryData[],
+  getInstance: (id: string) => IInstancePrimaryData | undefined,
+  getAllInstances: () => IInstancePrimaryData[],
   setInstancePrimaryData: React.Dispatch<React.SetStateAction<IInstancePrimaryData[]>>,
-  createInstance: (callback: () => void) => void
+  createInstance: () => void
 }
 
 export interface IInstanceProviderProps {
   children: React.ReactNode
 }
-// id: uuid(),
-// name: '',
-// loopControl: 'CLOSED',
-// gain: 1,
-// bias: 50,
-// status: 'CREATING'
-
 
 export const InstanceContext = createContext<IInstanceContext>({} as IInstanceContext)
 
-export const useInstance = () => useContext(InstanceContext)
+export const useInstanceManager = () => useContext(InstanceContext)
 
 export const InstanceProvider: React.FunctionComponent<IInstanceProviderProps> = (props) => {
   const [instancePrimaryData, setInstancePrimaryData] = useState<IInstancePrimaryData[]>([])
 
+  const getInstance = (id: string) => {
+    return instancePrimaryData.find((instance) => instance.id === id)
+  }
+
+  const getAllInstances = () => {
+    return instancePrimaryData
+  }
+
   const createInstance = () => {
+    if (instancePrimaryData.length >= 9) return
     setInstancePrimaryData((old) => [...old, {
       id: uuid(),
       name: '',
-      loopControl: 'CLOSED',
+      malha: 'CLOSED',
       gain: 1,
       bias: 50,
       status: 'CREATING'
     }])
   }
 
+
   return (
     <InstanceContext.Provider value={{
-      instancePrimaryData,
+      getInstance,
+      getAllInstances,
       setInstancePrimaryData,
       createInstance
     }}>

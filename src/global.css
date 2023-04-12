@@ -11,10 +11,7 @@ html, body, #root {
   height: 100%;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}
+/* Global das biblioteca */
 
 .recharts-tooltip-wrapper {
   outline: none !important;

@@ -12,6 +12,10 @@
 <body>
   <noscript>Você precisa de Javascript para rodar esse app</noscript>
   <div id="root"></div>
+  <script>
+    const theme = localStorage.getItem('chakra-ui-color-mode')
+    document.body.style.backgroundColor = theme === 'dark' ? '#282a36' : '#ffffff'
+  </script>
 </body>
 
 </html>
