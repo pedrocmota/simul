@@ -202,21 +202,58 @@ const TabManager: React.FunctionComponent = () => {
             display="inline-flex"
             width="0"
             flexGrow="1"
-            overflowY="hidden"
-            overflowX="auto"
-            __css={{
-              scrollbarColor: 'transparent transparent',
-              scrollbarHeight: '5px',
-              msOverflowStyle: 'none',
-              '::-webkit-scrollbar': {
-                padding: '0px',
-                height: '5px'
-              }
-            }}
+            paddingLeft="3px"
+            justifyContent="space-between"
           >
-            {InstanceManager.getAllInstances().map((instance) => (
-              <TabHeader key={instance.id} />
-            ))}
+            <Tooltip label="Mover para esquerda" aria-label="Mover para esquerda">
+              <Button
+                w="50px"
+                h="100%"
+                borderRadius="0px"
+                marginRight="3px"
+                onClick={() => {
+                  const container = document.querySelector('.instance-container')
+                  container.scrollLeft -= 100
+                }}
+              >
+                {'<<<'}
+              </Button>
+            </Tooltip>
+            <Flex
+              className="instance-container"
+              display="inline-flex"
+              width="0"
+              flexGrow="1"
+              overflowX="auto"
+              __css={{
+                scrollbarColor: 'transparent transparent',
+                scrollbarHeight: '0px',
+                scrollbarWidth: 'none',
+                msOverflowStyle: 'none',
+                '::-webkit-scrollbar': {
+                  padding: '0px',
+                  height: '0px'
+                }
+              }}
+            >
+              {InstanceManager.getAllInstances().map((instance) => (
+                <TabHeader key={instance.id} id={instance.id} />
+              ))}
+            </Flex>
+            <Tooltip label="Mover para direita" aria-label="Mover para direita">
+              <Button
+                w="50px"
+                h="100%"
+                borderRadius="0px"
+                marginLeft="3px"
+                onClick={() => {
+                  const container = document.querySelector('.instance-container')
+                  container.scrollLeft += 100
+                }}
+              >
+                {'>>>'}
+              </Button>
+            </Tooltip>
           </Flex>
         </Flex>
       </Flex>

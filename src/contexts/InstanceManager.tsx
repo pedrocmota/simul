@@ -5,8 +5,10 @@ import {IInstancePrimaryData} from './instanceInterfaces'
 export interface IInstanceContext {
   getInstance: (id: string) => IInstancePrimaryData | undefined,
   getAllInstances: () => IInstancePrimaryData[],
+  getInstancePosition: (id: string) => {index: number, isTheFirst: boolean, isTheLast: boolean},
   setInstancePrimaryData: React.Dispatch<React.SetStateAction<IInstancePrimaryData[]>>,
-  createInstance: () => void
+  createInstance: () => void,
+  deleteInstance: (id: string) => void
 }
 
 export interface IInstanceProviderProps {
@@ -28,11 +30,23 @@ export const InstanceProvider: React.FunctionComponent<IInstanceProviderProps> =
     return instancePrimaryData
   }
 
+  const getInstancePosition = (id: string) => {
+    return {
+      index: instancePrimaryData.findIndex((instance) => instance.id === id),
+      isTheFirst: instancePrimaryData.findIndex((instance) => instance.id === id) === 0,
+      isTheLast: instancePrimaryData.findIndex((instance) => instance.id === id) === instancePrimaryData.length - 1
+    }
+  }
+
+  const deleteInstance = (id: string) => {
+    setInstancePrimaryData((old) => old.filter((instance) => instance.id !== id))
+  }
+
   const createInstance = () => {
     if (instancePrimaryData.length >= 9) return
     setInstancePrimaryData((old) => [...old, {
       id: uuid(),
-      name: '',
+      name: `Instância sem nome (${instancePrimaryData.length + 1})`,
       malha: 'CLOSED',
       gain: 1,
       bias: 50,
@@ -40,13 +54,14 @@ export const InstanceProvider: React.FunctionComponent<IInstanceProviderProps> =
     }])
   }
 
-
   return (
     <InstanceContext.Provider value={{
       getInstance,
       getAllInstances,
+      getInstancePosition,
       setInstancePrimaryData,
-      createInstance
+      createInstance,
+      deleteInstance
     }}>
       {props.children}
     </InstanceContext.Provider>

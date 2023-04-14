@@ -2,14 +2,16 @@ import React, {useRef, useContext, createContext} from 'react'
 import {useDisclosure, UseDisclosureProps} from '@chakra-ui/react'
 import {ConfigPopup} from '../popups/static/ConfigPopup'
 import {ShortcutPopup} from '../popups/static/ShortcutPopup'
+import {YesOrNoPopup} from '../popups/dynamic/YesOrNoPopup'
 
 export interface IDisclosureContext {
   disclosuresData: React.MutableRefObject<IPopupsDataElement>,
   getPopupData: (id: string) => any,
-  openPopup: (id: string, params?: any, callback?: () => void) => void,
+  openPopup: (id: string, params?: any, callback?: (...args: any[]) => void) => void,
   disclosures: {
     config: UseDisclosureProps,
-    shortcuts: UseDisclosureProps
+    shortcuts: UseDisclosureProps,
+    yesOrNo: UseDisclosureProps
   }
 }
 
@@ -27,7 +29,7 @@ interface IPopupsDataElement {
   [key: string]: {
     id: string,
     params: any | undefined,
-    callback: () => void | undefined
+    callback: (...args: any[]) => void | undefined
   }
 }
 
@@ -40,6 +42,7 @@ export const DisclosureProvider: React.FunctionComponent<IDisclosureProviderProp
 
   const ConfigPopupDisclosure = useDisclosure()
   const ShortcutPopupDisclosure = useDisclosure()
+  const YesOrNoPopupDisclosure = useDisclosure()
 
   const getPopupData = (id: string) => {
     return {
@@ -51,11 +54,14 @@ export const DisclosureProvider: React.FunctionComponent<IDisclosureProviderProp
         if (id === 'shortcuts') {
           return ShortcutPopupDisclosure
         }
+        if (id === 'yesOrNo') {
+          return YesOrNoPopupDisclosure
+        }
       })()
     }
   }
 
-  const openPopup = (id: string, params?: any, callback?: () => void) => {
+  const openPopup = (id: string, params?: any, callback?: (...args: any[]) => void) => {
     disclosuresData.current[id] = {
       id: id,
       params: params,
@@ -67,6 +73,9 @@ export const DisclosureProvider: React.FunctionComponent<IDisclosureProviderProp
     if (id === 'shortcuts') {
       ShortcutPopupDisclosure.onOpen()
     }
+    if (id === 'yesOrNo') {
+      YesOrNoPopupDisclosure.onOpen()
+    }
   }
 
   return (
@@ -76,7 +85,8 @@ export const DisclosureProvider: React.FunctionComponent<IDisclosureProviderProp
       openPopup,
       disclosures: {
         config: ConfigPopupDisclosure,
-        shortcuts: ShortcutPopupDisclosure
+        shortcuts: ShortcutPopupDisclosure,
+        yesOrNo: YesOrNoPopupDisclosure
       }
     }}>
       {(disclosuresData.current['configs'] && (
@@ -84,6 +94,9 @@ export const DisclosureProvider: React.FunctionComponent<IDisclosureProviderProp
       ))}
       {(disclosuresData.current['shortcuts'] && (
         <ShortcutPopup />
+      ))}
+      {(disclosuresData.current['yesOrNo'] && (
+        <YesOrNoPopup />
       ))}
       {props.children}
     </DisclosureContext.Provider>
