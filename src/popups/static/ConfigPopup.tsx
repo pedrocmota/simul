@@ -1,13 +1,12 @@
 import React from 'react'
 import {
   Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton,
-  ModalBody, ModalFooter, Button, useColorMode, Flex, Box, Select, Text
+  ModalBody, ModalFooter, Button, Flex, Box, Select, Text
 } from '@chakra-ui/react'
 import {useDisclosureManager} from '../../contexts/DisclosureManager'
 
 const ConfigPopup: React.FunctionComponent = () => {
   const {callback, disclosure} = useDisclosureManager().getPopupData('configs')
-  const {colorMode, setColorMode} = useColorMode()
 
   const onClose = () => {
     disclosure.onClose()
@@ -30,13 +29,7 @@ const ConfigPopup: React.FunctionComponent = () => {
             mb="10px"
           >
             <Box w="300px">
-              <Text pb="5px">Tema de cores</Text>
-              <Select defaultValue={colorMode} w="100%" onChange={(value) => {
-                setColorMode(value.target.value)
-              }}>
-                <option value="light">Claro</option>
-                <option value="dark">Escuro</option>
-              </Select>
+
             </Box>
           </Flex>
         </ModalBody>

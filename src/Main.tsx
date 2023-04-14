@@ -1,5 +1,5 @@
 import React from 'react'
-import {Flex, Text, Button, Divider, Box, Tab, TabList, TabPanel, TabPanels, Tabs, Link, useColorMode, Tooltip} from '@chakra-ui/react'
+import {Flex, Text, Button, Box, Tooltip} from '@chakra-ui/react'
 import {HomeTab} from './tabs/HomeTab'
 import {DocsTab} from './tabs/DocsTab'
 import {AiFillHome} from 'react-icons/ai'
@@ -14,14 +14,13 @@ import {useDisclosureManager} from './contexts/DisclosureManager'
 import {TabHeader} from './tabs/TabHeader'
 
 export const Main = () => {
-  const {colorMode} = useColorMode()
   return (
     <Flex
       className="main"
       w="100%"
       h="100%"
       flexDir="column"
-      bg={colorMode === 'light' ? '#FAFAFA' : '#282a36'}
+      bg="#282a36"
     >
       <Header />
       <TabManager />
@@ -30,20 +29,19 @@ export const Main = () => {
 }
 
 const Header: React.FunctionComponent = () => {
-  const {colorMode} = useColorMode()
   return (
     <Flex
       className="header"
       w="100%"
       h="60px"
       alignItems="center"
-      bg={colorMode === 'light' ? 'gray.100' : '#2B2D38'}
+      bg="#2B2D38"
     >
       <Box pl="15px" __css={{
         svg: {
           width: '40px',
           height: '40px',
-          color: colorMode === 'light' ? '#333030' : '#D1CCCC'
+          color: '#D1CCCC'
         }
       }}>
         <Icon />
@@ -53,7 +51,7 @@ const Header: React.FunctionComponent = () => {
         fontFamily="monospace"
         fontSize="36px"
         pl="15px"
-        color={colorMode === 'light' ? '#333030' : '#D1CCCC'}
+        color="#D1CCCC"
       >
         Simul
       </Text>
@@ -62,7 +60,6 @@ const Header: React.FunctionComponent = () => {
 }
 
 const TabManager: React.FunctionComponent = () => {
-  const {colorMode} = useColorMode()
   const InstanceManager = useInstanceManager()
   const {tabIndex, setTabIndex} = useHotkey()
   const {openPopup} = useDisclosureManager()
@@ -78,8 +75,8 @@ const TabManager: React.FunctionComponent = () => {
           className="tab-manager"
           w="100%"
           h="44px"
-          bg={colorMode === 'light' ? '#ffffff' : '#282a36'}
-          borderBottom={`2px solid ${colorMode === 'light' ? '#E1E1E1' : '#2B2D38'}`}
+          bg="#282a36"
+          borderBottom="#2B2D38"
         >
           <Flex className="tabs-buttons">
             <Tooltip label="Página principal" aria-label="Página principal">
@@ -87,7 +84,7 @@ const TabManager: React.FunctionComponent = () => {
                 id="homeToolip"
                 w="58px"
                 h="100%"
-                color={colorMode === 'light' ? '#333030' : '#FFFFFF'}
+                color="#333030"
                 borderRadius="0px"
                 onClick={() => setTabIndex(0)}
                 onKeyDown={(e) => {
@@ -160,6 +157,7 @@ const TabManager: React.FunctionComponent = () => {
                 w="58px"
                 h="100%"
                 borderRadius="0px"
+                isDisabled={InstanceManager.getInstancesLength() >= 9}
                 onClick={() => {
                   InstanceManager.createInstance()
                 }}
@@ -181,6 +179,7 @@ const TabManager: React.FunctionComponent = () => {
                 w="58px"
                 h="100%"
                 borderRadius="0px"
+                isDisabled={InstanceManager.getInstancesLength() >= 9}
                 onClick={() => {
 
                 }}
@@ -205,20 +204,22 @@ const TabManager: React.FunctionComponent = () => {
             paddingLeft="3px"
             justifyContent="space-between"
           >
-            <Tooltip label="Mover para esquerda" aria-label="Mover para esquerda">
-              <Button
-                w="50px"
-                h="100%"
-                borderRadius="0px"
-                marginRight="3px"
-                onClick={() => {
-                  const container = document.querySelector('.instance-container')
-                  container.scrollLeft -= 100
-                }}
-              >
-                {'<<<'}
-              </Button>
-            </Tooltip>
+            {(InstanceManager.getInstancesLength() > 0) && (
+              <Tooltip label="Mover para esquerda" aria-label="Mover para esquerda">
+                <Button
+                  w="50px"
+                  h="100%"
+                  borderRadius="0px"
+                  marginRight="3px"
+                  onClick={() => {
+                    const container = document.querySelector('.instance-container')
+                    container.scrollLeft -= 100
+                  }}
+                >
+                  {'<<<'}
+                </Button>
+              </Tooltip>
+            )}
             <Flex
               className="instance-container"
               display="inline-flex"
@@ -240,20 +241,22 @@ const TabManager: React.FunctionComponent = () => {
                 <TabHeader key={instance.id} id={instance.id} />
               ))}
             </Flex>
-            <Tooltip label="Mover para direita" aria-label="Mover para direita">
-              <Button
-                w="50px"
-                h="100%"
-                borderRadius="0px"
-                marginLeft="3px"
-                onClick={() => {
-                  const container = document.querySelector('.instance-container')
-                  container.scrollLeft += 100
-                }}
-              >
-                {'>>>'}
-              </Button>
-            </Tooltip>
+            {(InstanceManager.getInstancesLength() > 0) && (
+              <Tooltip label="Mover para direita" aria-label="Mover para direita">
+                <Button
+                  w="50px"
+                  h="100%"
+                  borderRadius="0px"
+                  marginLeft="3px"
+                  onClick={() => {
+                    const container = document.querySelector('.instance-container')
+                    container.scrollLeft += 100
+                  }}
+                >
+                  {'>>>'}
+                </Button>
+              </Tooltip>
+            )}
           </Flex>
         </Flex>
       </Flex>

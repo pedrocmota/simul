@@ -1,15 +1,14 @@
-import {Box, Flex, Link, Text, useColorMode} from '@chakra-ui/react'
+import {Box, Flex, Link, Text} from '@chakra-ui/react'
 import React from 'react'
 import Icon from '../icon/icon.svg'
 
 const HomeTab: React.FunctionComponent = () => {
-  const {colorMode} = useColorMode()
   return (
     <Flex
       w="100%"
       h="100%"
       flexDir="column"
-      bg={colorMode === 'light' ? '#FAFAFA' : '#282a36'}
+      bg="#282a36"
       flex="1"
       justifyContent="center"
       alignItems="center"
@@ -22,7 +21,7 @@ const HomeTab: React.FunctionComponent = () => {
           svg: {
             width: '500px',
             height: '500px',
-            color: colorMode === 'light' ? '#EBE6E6B9' : '#2D2F3A',
+            color: '#2D2F3A',
             rotate: '45deg',
             transform: 'rotate(3deg)',
             userSelect: 'none',
@@ -31,10 +30,10 @@ const HomeTab: React.FunctionComponent = () => {
         }}>
         <Icon />
       </Box>
-      <Text color={colorMode === 'light' ? '#868686' : '#A3A3A379'}>
+      <Text color="#A3A3A379">
         Versão: {process.env.REACT_APP_VERSION}
       </Text>
-      <Text color={colorMode === 'light' ? '#868686' : '#A3A3A379'}>
+      <Text color="#A3A3A379">
         Feito por Pedro Mota
       </Text>
       <Flex
@@ -44,7 +43,7 @@ const HomeTab: React.FunctionComponent = () => {
         <Link
           href="https://github.com/pedrocmota/simul"
           target="_blank"
-          color={colorMode === 'light' ? '#868686' : '#A3A3A379'}
+          color="#A3A3A379"
         >
           Veja no Github
         </Link>

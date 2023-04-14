@@ -5,6 +5,7 @@ import {IInstancePrimaryData} from './instanceInterfaces'
 export interface IInstanceContext {
   getInstance: (id: string) => IInstancePrimaryData | undefined,
   getAllInstances: () => IInstancePrimaryData[],
+  getInstancesLength: () => number,
   getInstancePosition: (id: string) => {index: number, isTheFirst: boolean, isTheLast: boolean},
   setInstancePrimaryData: React.Dispatch<React.SetStateAction<IInstancePrimaryData[]>>,
   createInstance: () => void,
@@ -28,6 +29,10 @@ export const InstanceProvider: React.FunctionComponent<IInstanceProviderProps> =
 
   const getAllInstances = () => {
     return instancePrimaryData
+  }
+
+  const getInstancesLength = () => {
+    return instancePrimaryData.length
   }
 
   const getInstancePosition = (id: string) => {
@@ -58,6 +63,7 @@ export const InstanceProvider: React.FunctionComponent<IInstanceProviderProps> =
     <InstanceContext.Provider value={{
       getInstance,
       getAllInstances,
+      getInstancesLength,
       getInstancePosition,
       setInstancePrimaryData,
       createInstance,

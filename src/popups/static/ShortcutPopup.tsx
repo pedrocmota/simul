@@ -1,7 +1,7 @@
 import React from 'react'
 import {
   Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton,
-  ModalBody, ModalFooter, Button, useColorMode, Flex, Divider, Box
+  ModalBody, ModalFooter, Button, Flex
 } from '@chakra-ui/react'
 import {useDisclosureManager} from '../../contexts/DisclosureManager'
 import {DividerStyled} from '../../components/DividerStyled'
@@ -13,7 +13,6 @@ interface IShortcut {
 
 const ShortcutPopup: React.FunctionComponent = () => {
   const {callback, disclosure} = useDisclosureManager().getPopupData('shortcuts')
-  const {colorMode} = useColorMode()
 
   const onClose = () => {
     disclosure.onClose()
@@ -66,16 +65,15 @@ const ShortcutPopup: React.FunctionComponent = () => {
 }
 
 const Shotcut: React.FunctionComponent<IShortcut> = (shorcut) => {
-  const {colorMode} = useColorMode()
   return (
     <Flex key={shorcut.shortcutKey} w="100%" mt="10px">
       <Flex
-        bg={colorMode === 'dark' ? '#39455A' : '#FCFAFA'}
-        color={colorMode === 'dark' ? '#fff' : '#5C5959'}
+        bg="#39455A"
+        color="#fff"
         w="135px"
         h="45px"
         borderRadius="5px"
-        border={`1px solid ${colorMode === 'dark' ? '#2d3748' : '#E2E8F0'}`}
+        border="#2d3748"
         justifyContent="center"
         alignItems="center"
         fontSize="20px"
@@ -84,7 +82,7 @@ const Shotcut: React.FunctionComponent<IShortcut> = (shorcut) => {
       </Flex>
       <Flex
         h="45px"
-        color={colorMode === 'dark' ? '#fff' : '#111010'}
+        color="#fff"
         alignItems="center"
         fontSize="20px"
         ml="10px"
