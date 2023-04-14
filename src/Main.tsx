@@ -10,7 +10,7 @@ import {FaFileUpload} from 'react-icons/fa'
 import Icon from './icon/icon.svg'
 import {useInstanceManager} from './contexts/InstanceManager'
 import {useHotkey} from './contexts/HotkeyContext'
-import {useDisclosureManager} from './contexts/DisclosureManager'
+import {usePopupManager} from './contexts/PopupManager'
 import {TabHeader} from './tabs/TabHeader'
 
 export const Main = () => {
@@ -62,7 +62,7 @@ const Header: React.FunctionComponent = () => {
 const TabManager: React.FunctionComponent = () => {
   const InstanceManager = useInstanceManager()
   const {tabIndex, setTabIndex} = useHotkey()
-  const {openPopup} = useDisclosureManager()
+  const {openPopup} = usePopupManager()
 
   return (
     <>
@@ -84,7 +84,7 @@ const TabManager: React.FunctionComponent = () => {
                 id="homeToolip"
                 w="58px"
                 h="100%"
-                color="#333030"
+                color="#FFFFFF"
                 borderRadius="0px"
                 onClick={() => setTabIndex(0)}
                 onKeyDown={(e) => {
@@ -111,6 +111,7 @@ const TabManager: React.FunctionComponent = () => {
                 id="docsToolip"
                 w="58px"
                 h="100%"
+                color="#FFFFFF"
                 borderRadius="0px"
                 onClick={() => setTabIndex(1)}
                 onKeyDown={(e) => {

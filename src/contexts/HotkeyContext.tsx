@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useContext, createContext} from 'react'
-import {useDisclosureManager} from '../contexts/DisclosureManager'
+import {usePopupManager} from './PopupManager'
 
 export interface IHotkeyContext {
   tabIndex: number,
@@ -15,7 +15,7 @@ export const HotkeyContext = createContext<IHotkeyContext>({} as IHotkeyContext)
 export const useHotkey = () => useContext(HotkeyContext)
 
 export const HotkeyProvider: React.FunctionComponent<IHotkeyProviderProps> = (props) => {
-  const {openPopup} = useDisclosureManager()
+  const {openPopup} = usePopupManager()
 
   const [tabIndex, setTabIndex] = useState<number>(0)
   useEffect(() => {

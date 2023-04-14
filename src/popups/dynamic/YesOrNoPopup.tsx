@@ -3,7 +3,7 @@ import {
   Modal, ModalOverlay, ModalContent, ModalHeader,
   ModalBody, ModalFooter, Button, Flex
 } from '@chakra-ui/react'
-import {useDisclosureManager} from '../../contexts/DisclosureManager'
+import {usePopupManager} from '../../contexts/PopupManager'
 
 // interface IYesOrNoPopup {
 //   title: string,
@@ -13,7 +13,7 @@ import {useDisclosureManager} from '../../contexts/DisclosureManager'
 // }
 
 const YesOrNoPopup: React.FunctionComponent = () => {
-  const {callback, disclosure, params} = useDisclosureManager().getPopupData('yesOrNo')
+  const {callback, disclosure, params} = usePopupManager().getPopupData('yesOrNo')
 
   const onClose = (response: boolean) => {
     disclosure.onClose()

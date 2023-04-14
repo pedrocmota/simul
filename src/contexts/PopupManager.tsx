@@ -4,7 +4,7 @@ import {ConfigPopup} from '../popups/static/ConfigPopup'
 import {ShortcutPopup} from '../popups/static/ShortcutPopup'
 import {YesOrNoPopup} from '../popups/dynamic/YesOrNoPopup'
 
-export interface IDisclosureContext {
+export interface IPopupContext {
   disclosuresData: React.MutableRefObject<IPopupsDataElement>,
   getPopupData: (id: string) => any,
   openPopup: (id: string, params?: any, callback?: (...args: any[]) => void) => void,
@@ -15,7 +15,7 @@ export interface IDisclosureContext {
   }
 }
 
-export interface IDisclosureProviderProps {
+export interface IPopupProviderProps {
   children: React.ReactNode
 }
 
@@ -33,11 +33,11 @@ interface IPopupsDataElement {
   }
 }
 
-export const DisclosureContext = createContext<IDisclosureContext>({} as IDisclosureContext)
+export const PopupContext = createContext<IPopupContext>({} as IPopupContext)
 
-export const useDisclosureManager = () => useContext(DisclosureContext)
+export const usePopupManager = () => useContext(PopupContext)
 
-export const DisclosureProvider: React.FunctionComponent<IDisclosureProviderProps> = (props) => {
+export const PopupProvider: React.FunctionComponent<IPopupProviderProps> = (props) => {
   const disclosuresData = useRef<IPopupsDataElement>({})
 
   const ConfigPopupDisclosure = useDisclosure()
@@ -79,7 +79,7 @@ export const DisclosureProvider: React.FunctionComponent<IDisclosureProviderProp
   }
 
   return (
-    <DisclosureContext.Provider value={{
+    <PopupContext.Provider value={{
       disclosuresData,
       getPopupData,
       openPopup,
@@ -99,6 +99,6 @@ export const DisclosureProvider: React.FunctionComponent<IDisclosureProviderProp
         <YesOrNoPopup />
       ))}
       {props.children}
-    </DisclosureContext.Provider>
+    </PopupContext.Provider>
   )
 }

@@ -1,12 +1,12 @@
 import React from 'react'
 import {
   Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton,
-  ModalBody, ModalFooter, Button, Flex, Box, Select, Text
+  ModalBody, ModalFooter, Button, Flex, Box
 } from '@chakra-ui/react'
-import {useDisclosureManager} from '../../contexts/DisclosureManager'
+import {usePopupManager} from '../../contexts/PopupManager'
 
 const ConfigPopup: React.FunctionComponent = () => {
-  const {callback, disclosure} = useDisclosureManager().getPopupData('configs')
+  const {callback, disclosure} = usePopupManager().getPopupData('configs')
 
   const onClose = () => {
     disclosure.onClose()

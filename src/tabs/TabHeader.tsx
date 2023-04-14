@@ -1,7 +1,7 @@
 import React from 'react'
 import {Box, Button, Flex, Text, Tooltip} from '@chakra-ui/react'
 import {useInstanceManager} from '../contexts/InstanceManager'
-import {useDisclosureManager} from '../contexts/DisclosureManager'
+import {usePopupManager} from '../contexts/PopupManager'
 import {IoClose} from 'react-icons/io5'
 
 interface ITabHeader {
@@ -10,7 +10,7 @@ interface ITabHeader {
 
 const TabHeader: React.FunctionComponent<ITabHeader> = (props) => {
   const {getInstance, getInstancePosition, deleteInstance} = useInstanceManager()
-  const {openPopup} = useDisclosureManager()
+  const {openPopup} = usePopupManager()
   const instance = getInstance(props.id)
   const position = getInstancePosition(props.id)
 

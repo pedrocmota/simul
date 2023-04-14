@@ -9,7 +9,7 @@ import {
 import {Main} from './Main'
 import {InstanceProvider} from './contexts/InstanceManager'
 import {HotkeyProvider} from './contexts/HotkeyContext'
-import {DisclosureProvider} from './contexts/DisclosureManager'
+import {PopupProvider} from './contexts/PopupManager'
 import './global.css'
 
 const root = ReactDOM.createRoot(
@@ -25,13 +25,13 @@ const theme = extendTheme({config})
 
 root.render(
   <ChakraProvider theme={theme}>
-    <DisclosureProvider>
+    <PopupProvider>
       <HotkeyProvider>
         <InstanceProvider>
           <CSSReset />
           <Main />
         </InstanceProvider>
       </HotkeyProvider>
-    </DisclosureProvider>
+    </PopupProvider>
   </ChakraProvider>
 )

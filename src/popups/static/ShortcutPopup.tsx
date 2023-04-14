@@ -3,7 +3,7 @@ import {
   Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton,
   ModalBody, ModalFooter, Button, Flex
 } from '@chakra-ui/react'
-import {useDisclosureManager} from '../../contexts/DisclosureManager'
+import {usePopupManager} from '../../contexts/PopupManager'
 import {DividerStyled} from '../../components/DividerStyled'
 
 interface IShortcut {
@@ -12,7 +12,7 @@ interface IShortcut {
 }
 
 const ShortcutPopup: React.FunctionComponent = () => {
-  const {callback, disclosure} = useDisclosureManager().getPopupData('shortcuts')
+  const {callback, disclosure} = usePopupManager().getPopupData('shortcuts')
 
   const onClose = () => {
     disclosure.onClose()
