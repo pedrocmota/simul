@@ -3,20 +3,17 @@ import {
   Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton,
   ModalBody, ModalFooter, Button, Flex, Box
 } from '@chakra-ui/react'
-import {usePopupManager} from '../../contexts/PopupManager'
+import {usePopupManager} from '../contexts/PopupManager'
 
 const ConfigPopup: React.FunctionComponent = () => {
-  const {callback, disclosure} = usePopupManager().getPopupData('configs')
+  const Manager = usePopupManager().getPopupData('configs')
 
   const onClose = () => {
-    disclosure.onClose()
-    if (callback) {
-      callback()
-    }
+    Manager.onClose()
   }
 
   return (
-    <Modal isOpen={disclosure.isOpen} onClose={onClose}>
+    <Modal isOpen={Manager.isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>Configurações</ModalHeader>

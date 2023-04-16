@@ -3,8 +3,8 @@ import {
   Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton,
   ModalBody, ModalFooter, Button, Flex
 } from '@chakra-ui/react'
-import {usePopupManager} from '../../contexts/PopupManager'
-import {DividerStyled} from '../../components/DividerStyled'
+import {usePopupManager} from '../contexts/PopupManager'
+import {DividerStyled} from '../components/DividerStyled'
 
 interface IShortcut {
   shortcutKey: string,
@@ -12,17 +12,14 @@ interface IShortcut {
 }
 
 const ShortcutPopup: React.FunctionComponent = () => {
-  const {callback, disclosure} = usePopupManager().getPopupData('shortcuts')
+  const Manager = usePopupManager().getPopupData('shortcuts')
 
   const onClose = () => {
-    disclosure.onClose()
-    if (callback) {
-      callback()
-    }
+    Manager.onClose()
   }
 
   return (
-    <Modal isOpen={disclosure.isOpen} onClose={onClose} size="lg" scrollBehavior="inside">
+    <Modal isOpen={Manager.isOpen} onClose={onClose} size="lg" scrollBehavior="inside">
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>Atalhos</ModalHeader>

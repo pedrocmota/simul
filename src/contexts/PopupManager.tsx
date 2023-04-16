@@ -1,103 +1,103 @@
-import React, {useRef, useContext, createContext} from 'react'
-import {useDisclosure, UseDisclosureProps} from '@chakra-ui/react'
-import {ConfigPopup} from '../popups/static/ConfigPopup'
-import {ShortcutPopup} from '../popups/static/ShortcutPopup'
-import {YesOrNoPopup} from '../popups/dynamic/YesOrNoPopup'
+import React, {useState, useContext, createContext} from 'react'
+import {ConfigPopup} from '../popups/ConfigPopup'
+import {ShortcutPopup} from '../popups/ShortcutPopup'
+import {YesOrNoPopup, IYesOrNoPopupParams} from '../popups/YesOrNoPopup'
+export type {IYesOrNoPopupParams}
+
+interface IPopupData {
+  id: string,
+  component: React.FunctionComponent,
+  isOpen: boolean,
+  isRendered: boolean,
+  params: any,
+  callback: (...args: any[]) => void
+}
+
+const PopupDatas = [
+  {
+    id: 'configs',
+    component: ConfigPopup,
+    isOpen: false,
+    isRendered: false,
+    params: {},
+    callback: () => { }
+  },
+  {
+    id: 'shortcuts',
+    component: ShortcutPopup,
+    isOpen: false,
+    isRendered: false,
+    params: {},
+    callback: () => { }
+  },
+  {
+    id: 'yesOrNo',
+    component: YesOrNoPopup,
+    isOpen: false,
+    isRendered: false,
+    params: {},
+    callback: () => { }
+  }
+] as const
+
+type IGetPopupData<T> = IPopupData & {
+  params: T,
+  onClose: () => void
+}
+
+type PopupsIDs = typeof PopupDatas[number]['id']
 
 export interface IPopupContext {
-  disclosuresData: React.MutableRefObject<IPopupsDataElement>,
-  getPopupData: (id: string) => any,
-  openPopup: (id: string, params?: any, callback?: (...args: any[]) => void) => void,
-  disclosures: {
-    config: UseDisclosureProps,
-    shortcuts: UseDisclosureProps,
-    yesOrNo: UseDisclosureProps
-  }
-}
-
-export interface IPopupProviderProps {
-  children: React.ReactNode
-}
-
-export interface IPopupsData {
-  id: string,
-  params?: any,
-  callback?: () => void
-}
-
-interface IPopupsDataElement {
-  [key: string]: {
-    id: string,
-    params: any | undefined,
-    callback: (...args: any[]) => void | undefined
-  }
+  getPopupData: <T>(id: PopupsIDs) => IGetPopupData<T>,
+  openPopup: <T>(id: PopupsIDs, params?: T, callback?: (...args: any[]) => void) => void,
+  closePopup: (id: PopupsIDs) => void
 }
 
 export const PopupContext = createContext<IPopupContext>({} as IPopupContext)
 
 export const usePopupManager = () => useContext(PopupContext)
 
-export const PopupProvider: React.FunctionComponent<IPopupProviderProps> = (props) => {
-  const disclosuresData = useRef<IPopupsDataElement>({})
-
-  const ConfigPopupDisclosure = useDisclosure()
-  const ShortcutPopupDisclosure = useDisclosure()
-  const YesOrNoPopupDisclosure = useDisclosure()
+export const PopupProvider: React.FunctionComponent<{children: React.ReactNode}> = (props) => {
+  const [popups, setPopups] = useState(PopupDatas as any as IPopupData[])
 
   const getPopupData = (id: string) => {
-    return {
-      ...disclosuresData.current[id],
-      disclosure: (() => {
-        if (id === 'configs') {
-          return ConfigPopupDisclosure
-        }
-        if (id === 'shortcuts') {
-          return ShortcutPopupDisclosure
-        }
-        if (id === 'yesOrNo') {
-          return YesOrNoPopupDisclosure
-        }
-      })()
+    const data = popups.find((element) => element.id === id) as IGetPopupData<any>
+    const close = () => {
+      closePopup(id)
     }
+    data.onClose = close
+    return data
   }
 
   const openPopup = (id: string, params?: any, callback?: (...args: any[]) => void) => {
-    disclosuresData.current[id] = {
-      id: id,
-      params: params,
-      callback: callback
-    }
-    if (id === 'configs') {
-      ConfigPopupDisclosure.onOpen()
-    }
-    if (id === 'shortcuts') {
-      ShortcutPopupDisclosure.onOpen()
-    }
-    if (id === 'yesOrNo') {
-      YesOrNoPopupDisclosure.onOpen()
-    }
+    setPopups([...popups.map((order) =>
+      order.id === id ? {
+        ...order, isRendered: true, isOpen: true, params: params, callback: callback
+      } : order
+    )])
+  }
+
+  const closePopup = (id: string) => {
+    setPopups([...popups.map((order) =>
+      order.id === id ? {...order, isOpen: false, params: {}, callback: () => { }} : order
+    )])
+    setTimeout(() => {
+      setPopups([...popups.map((order) =>
+        order.id === id ? {...order, isRendered: false} : order
+      )])
+    }, 250)
   }
 
   return (
     <PopupContext.Provider value={{
-      disclosuresData,
       getPopupData,
       openPopup,
-      disclosures: {
-        config: ConfigPopupDisclosure,
-        shortcuts: ShortcutPopupDisclosure,
-        yesOrNo: YesOrNoPopupDisclosure
-      }
+      closePopup
     }}>
-      {(disclosuresData.current['configs'] && (
-        <ConfigPopup />
-      ))}
-      {(disclosuresData.current['shortcuts'] && (
-        <ShortcutPopup />
-      ))}
-      {(disclosuresData.current['yesOrNo'] && (
-        <YesOrNoPopup />
-      ))}
+      {(popups.map((Popup) => (
+        Popup.isRendered &&
+        <Popup.component key={Popup.id} />
+      )))}
       {props.children}
     </PopupContext.Provider>
   )

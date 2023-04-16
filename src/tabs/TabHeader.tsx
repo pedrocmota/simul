@@ -1,7 +1,7 @@
 import React from 'react'
-import {Box, Button, Flex, Text, Tooltip} from '@chakra-ui/react'
+import {Box, Button, Text, Tooltip} from '@chakra-ui/react'
 import {useInstanceManager} from '../contexts/InstanceManager'
-import {usePopupManager} from '../contexts/PopupManager'
+import {usePopupManager, IYesOrNoPopupParams} from '../contexts/PopupManager'
 import {IoClose} from 'react-icons/io5'
 
 interface ITabHeader {
@@ -36,7 +36,7 @@ const TabHeader: React.FunctionComponent<ITabHeader> = (props) => {
       <Tooltip label="Fecha instância" aria-label="Fecha instância">
         <Box
           onClick={() => {
-            openPopup('yesOrNo', {
+            openPopup<IYesOrNoPopupParams>('yesOrNo', {
               title: 'Tem certeza?',
               msg: 'Deseja fechar a instância?'
             }, (confirmation: boolean) => {

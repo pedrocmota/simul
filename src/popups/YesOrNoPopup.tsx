@@ -3,30 +3,30 @@ import {
   Modal, ModalOverlay, ModalContent, ModalHeader,
   ModalBody, ModalFooter, Button, Flex
 } from '@chakra-ui/react'
-import {usePopupManager} from '../../contexts/PopupManager'
+import {usePopupManager} from '../contexts/PopupManager'
 
-// interface IYesOrNoPopup {
-//   title: string,
-//   msg: string,
-//   yesText?: string,
-//   noText?: string
-// }
+export interface IYesOrNoPopupParams {
+  title: string,
+  msg: string,
+  yesText?: string,
+  noText?: string
+}
 
 const YesOrNoPopup: React.FunctionComponent = () => {
-  const {callback, disclosure, params} = usePopupManager().getPopupData('yesOrNo')
+  const Manager = usePopupManager().getPopupData('yesOrNo')
 
-  const onClose = (response: boolean) => {
-    disclosure.onClose()
-    if (callback) {
-      callback(response)
+  const onClose = (responde: boolean) => {
+    Manager.onClose()
+    if (Manager.callback) {
+      Manager.callback(responde)
     }
   }
 
   return (
-    <Modal isOpen={disclosure.isOpen} onClose={() => onClose(false)}>
+    <Modal isOpen={Manager.isOpen} onClose={() => onClose(false)}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>{params.title}</ModalHeader>
+        <ModalHeader>{Manager.params.title}</ModalHeader>
         <ModalBody>
           <Flex
             w="100%"
@@ -34,7 +34,7 @@ const YesOrNoPopup: React.FunctionComponent = () => {
             alignItems="center"
             mb="10px"
           >
-            {params.msg}
+            {Manager.params.msg}
           </Flex>
         </ModalBody>
         <ModalFooter>
@@ -49,7 +49,7 @@ const YesOrNoPopup: React.FunctionComponent = () => {
               }
             }}
           >
-            {params.yesText || 'Sim'}
+            {Manager.params.yesText || 'Sim'}
           </Button>
           <Button
             id="no-button"
@@ -64,7 +64,7 @@ const YesOrNoPopup: React.FunctionComponent = () => {
               }
             }}
           >
-            {params.noText || 'Não'}
+            {Manager.params.noText || 'Não'}
           </Button>
         </ModalFooter>
       </ModalContent>
