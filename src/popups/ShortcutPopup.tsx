@@ -1,8 +1,5 @@
 import React from 'react'
-import {
-  Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton,
-  ModalBody, ModalFooter, Button, Flex
-} from '@chakra-ui/react'
+import {Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, Flex} from '@chakra-ui/react'
 import {usePopupManager} from '../contexts/PopupManager'
 import {DividerStyled} from '../components/DividerStyled'
 
@@ -24,7 +21,7 @@ const ShortcutPopup: React.FunctionComponent = () => {
       <ModalContent>
         <ModalHeader>Atalhos</ModalHeader>
         <ModalCloseButton tabIndex={-1} />
-        <ModalBody mb="10px" autoFocus tabIndex={0} outline="none">
+        <ModalBody mb="20px" autoFocus tabIndex={0} outline="none">
           <Flex
             w="100%"
             mt="10px"
@@ -32,30 +29,20 @@ const ShortcutPopup: React.FunctionComponent = () => {
           >
             <DividerStyled>Atalhos globais</DividerStyled>
             <Shotcut shortcutKey="H" description="Abrir os atalhos" />
-            <Shotcut shortcutKey="Ctrl + O" description="Abrir as opções" />
+            <Shotcut shortcutKey="Alt + O" description="Abrir as opções" />
 
             <DividerStyled mt="20px">Atalhos de foco</DividerStyled>
-            <Shotcut shortcutKey="Home" description="Foca na barra de ferramentas" />
-
-            <Shotcut shortcutKey="Home" description="Foca na barra de ferramentas" />
-            <Shotcut shortcutKey="Home" description="Foca na barra de ferramentas" />
-            <Shotcut shortcutKey="Home" description="Foca na barra de ferramentas" />
-            <Shotcut shortcutKey="Home" description="Foca na barra de ferramentas" />
-            <Shotcut shortcutKey="Home" description="Foca na barra de ferramentas" />
-            <Shotcut shortcutKey="Home" description="Foca na barra de ferramentas" />
-            <Shotcut shortcutKey="Home" description="Foca na barra de ferramentas" />
-            <Shotcut shortcutKey="Home" description="Foca na barra de ferramentas" />
-            <Shotcut shortcutKey="Home" description="Foca na barra de ferramentas" />
-            <Shotcut shortcutKey="Home" description="Foca na barra de ferramentas" />
-            <Shotcut shortcutKey="Home" description="Foca na barra de ferramentas" />
-
+            <Shotcut shortcutKey="Ctrl + Home" description="Foca na barra de ferramentas" />
+            <Shotcut shortcutKey="Home" description="Foca na barra de instâncias" />
+            <Shotcut shortcutKey="←" description="Move o foco para esquerda" />
+            <Shotcut shortcutKey="→" description="Move o foco para direita" />
+            <Shotcut shortcutKey="↑" description="Move o foco para cima" />
+            <Shotcut shortcutKey="↓" description="Move o foco para baixo" />
+            <Shotcut shortcutKey="Delete" description="Deleta o objeto focado" />
+            <Shotcut shortcutKey="Enter" description="Clica no botão focado" />
+            <Shotcut shortcutKey="Enter" description="Foca o próximo campo, caso já esteja editando outro" />
           </Flex>
         </ModalBody>
-        <ModalFooter>
-          <Button colorScheme="blue" mr={3} onClick={onClose}>
-            Fechar
-          </Button>
-        </ModalFooter>
       </ModalContent>
     </Modal>
   )
@@ -63,11 +50,11 @@ const ShortcutPopup: React.FunctionComponent = () => {
 
 const Shotcut: React.FunctionComponent<IShortcut> = (shorcut) => {
   return (
-    <Flex key={shorcut.shortcutKey} w="100%" mt="10px">
+    <Flex key={shorcut.shortcutKey} w="100%" minH="45px" mt="10px" alignItems="center">
       <Flex
         bg="#39455A"
         color="#fff"
-        w="135px"
+        minW="135px"
         h="45px"
         borderRadius="5px"
         border="#2d3748"
@@ -78,10 +65,10 @@ const Shotcut: React.FunctionComponent<IShortcut> = (shorcut) => {
         {shorcut.shortcutKey}
       </Flex>
       <Flex
-        h="45px"
+        minH="45px"
         color="#fff"
         alignItems="center"
-        fontSize="20px"
+        fontSize="19px"
         ml="10px"
       >
         {shorcut.description}

@@ -7,7 +7,7 @@ import {usePopupManager} from '../contexts/PopupManager'
 
 export interface IYesOrNoPopupParams {
   title: string,
-  msg: string,
+  msg: string | React.ReactNode,
   yesText?: string,
   noText?: string
 }
@@ -37,10 +37,11 @@ const YesOrNoPopup: React.FunctionComponent = () => {
             {Manager.params.msg}
           </Flex>
         </ModalBody>
-        <ModalFooter>
+        <ModalFooter justifyContent="center">
           <Button
             id="yes-button"
-            colorScheme="blue"
+            colorScheme="green"
+            minWidth="80px"
             mr={3}
             onClick={() => onClose(true)}
             onKeyDown={(e) => {
@@ -54,7 +55,7 @@ const YesOrNoPopup: React.FunctionComponent = () => {
           <Button
             id="no-button"
             colorScheme="red"
-            mr={3}
+            minWidth="80px"
             autoFocus
             tabIndex={0}
             onClick={() => onClose(false)}

@@ -27,6 +27,19 @@ const HomeTab: React.FunctionComponent = () => {
             userSelect: 'none',
             pointerEvents: 'none'
           }
+        }}
+        sx={{
+          '@media (max-height: 730px)': {
+            svg: {
+              width: '400px',
+              height: '400px'
+            }
+          },
+          '@media (max-height: 630px)': {
+            svg: {
+              mb: '50px'
+            }
+          }
         }}>
         <Icon />
       </Box>

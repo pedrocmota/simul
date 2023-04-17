@@ -8,10 +8,11 @@ import {SlDocs} from 'react-icons/sl'
 import {ImNewTab} from 'react-icons/im'
 import {FaFileUpload} from 'react-icons/fa'
 import Icon from './icon/icon.svg'
-import {useInstanceManager} from './contexts/InstanceManager'
+import {useInstanceHeaderManager} from './contexts/InstanceHeaderManager'
 import {useHotkey} from './contexts/HotkeyContext'
 import {usePopupManager} from './contexts/PopupManager'
 import {TabHeader} from './tabs/TabHeader'
+import {InstanceContainer} from './instance/InstanceContainer'
 
 export const Main = () => {
   return (
@@ -60,8 +61,8 @@ const Header: React.FunctionComponent = () => {
 }
 
 const TabManager: React.FunctionComponent = () => {
-  const InstanceManager = useInstanceManager()
-  const {tabIndex, setTabIndex} = useHotkey()
+  const InstanceManager = useInstanceHeaderManager()
+  const {tabIndex, setTabIndex, selectedInstance, setSelectedInstance} = useHotkey()
   const {openPopup} = usePopupManager()
 
   return (
@@ -86,7 +87,10 @@ const TabManager: React.FunctionComponent = () => {
                 h="100%"
                 color="#FFFFFF"
                 borderRadius="0px"
-                onClick={() => setTabIndex(0)}
+                onClick={() => {
+                  setTabIndex(0)
+                  setSelectedInstance('')
+                }}
                 onKeyDown={(e) => {
                   if (e.key === 'ArrowRight') {
                     document.getElementById('docsToolip').focus()
@@ -113,7 +117,10 @@ const TabManager: React.FunctionComponent = () => {
                 h="100%"
                 color="#FFFFFF"
                 borderRadius="0px"
-                onClick={() => setTabIndex(1)}
+                onClick={() => {
+                  setTabIndex(1)
+                  setSelectedInstance('')
+                }}
                 onKeyDown={(e) => {
                   if (e.key === 'ArrowRight') {
                     document.getElementById('configsToolip').focus()
@@ -238,8 +245,12 @@ const TabManager: React.FunctionComponent = () => {
                 }
               }}
             >
-              {InstanceManager.getAllInstances().map((instance) => (
-                <TabHeader key={instance.id} id={instance.id} />
+              {InstanceManager.getAllInstances().map((instance, index) => (
+                <TabHeader
+                  key={instance.id}
+                  tabID={instance.id}
+                  id={index.toString()}
+                />
               ))}
             </Flex>
             {(InstanceManager.getInstancesLength() > 0) && (
@@ -274,6 +285,18 @@ const TabManager: React.FunctionComponent = () => {
         {(tabIndex === 1) && (
           <DocsTab />
         )}
+        {((tabIndex === -1 && selectedInstance !== '') && (
+          <>
+            {InstanceManager.getAllInstances().map((instance, index) => (
+              <InstanceContainer
+                id={`instance-container-${index}`}
+                key={instance.id}
+                selected={instance.id === selectedInstance}
+                instanceID={instance.id}
+              />
+            ))}
+          </>
+        ))}
       </Flex>
     </>
   )

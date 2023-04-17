@@ -1,8 +1,5 @@
-export interface IInstancePrimaryData {
+export interface IInstanceHeaderData {
   id: string,
   name: string,
-  status: 'RUNNING' | 'STOPPED' | 'CREATING',
-  malha: 'OPEN' | 'CLOSED',
-  gain: number,
-  bias: number
+  status: 'RUNNING' | 'STOPPED' | 'CREATING'
 }

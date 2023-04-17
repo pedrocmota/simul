@@ -1,13 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import {
-  ChakraProvider,
-  CSSReset,
-  useColorMode,
-  extendTheme, type ThemeConfig
-} from '@chakra-ui/react'
+import {ChakraProvider, CSSReset, extendTheme, type ThemeConfig} from '@chakra-ui/react'
 import {Main} from './Main'
-import {InstanceProvider} from './contexts/InstanceManager'
+import {InstanceHeaderProvider} from './contexts/InstanceHeaderManager'
 import {HotkeyProvider} from './contexts/HotkeyContext'
 import {PopupProvider} from './contexts/PopupManager'
 import './global.css'
@@ -27,10 +22,10 @@ root.render(
   <ChakraProvider theme={theme}>
     <PopupProvider>
       <HotkeyProvider>
-        <InstanceProvider>
+        <InstanceHeaderProvider>
           <CSSReset />
           <Main />
-        </InstanceProvider>
+        </InstanceHeaderProvider>
       </HotkeyProvider>
     </PopupProvider>
   </ChakraProvider>
