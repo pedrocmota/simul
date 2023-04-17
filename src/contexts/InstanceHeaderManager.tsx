@@ -1,6 +1,6 @@
 import React, {useState, useContext, createContext} from 'react'
 import {v4 as uuid} from 'uuid'
-import {IInstanceHeaderData} from './instanceInterfaces'
+import {IInstanceHeaderData, InstanceStatus} from './instanceInterfaces'
 import {useHotkey} from './HotkeyContext'
 
 export interface IInstanceContext {
@@ -10,7 +10,8 @@ export interface IInstanceContext {
   getInstancePosition: (id: string) => {index: number, isTheFirst: boolean, isTheLast: boolean},
   setInstanceHeaderData: React.Dispatch<React.SetStateAction<IInstanceHeaderData[]>>,
   createInstance: () => void,
-  deleteInstance: (id: string) => void
+  deleteInstance: (id: string) => void,
+  setInstanceStatus: (id: string, ststus: InstanceStatus) => void
 }
 
 export const InstanceContext = createContext<IInstanceContext>({} as IInstanceContext)
@@ -62,6 +63,12 @@ export const InstanceHeaderProvider: React.FunctionComponent<{children: React.Re
     }, 100)
   }
 
+  const setInstanceStatus = (id: string, status: InstanceStatus) => {
+    setInstanceHeaderData([...instanceHeaderData.map((instance) =>
+      instance.id === id ? {...instance, status: status} : instance
+    )])
+  }
+
   return (
     <InstanceContext.Provider value={{
       getInstance,
@@ -70,7 +77,8 @@ export const InstanceHeaderProvider: React.FunctionComponent<{children: React.Re
       getInstancePosition,
       setInstanceHeaderData,
       createInstance,
-      deleteInstance
+      deleteInstance,
+      setInstanceStatus
     }}>
       {props.children}
     </InstanceContext.Provider>

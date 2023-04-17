@@ -27,7 +27,7 @@ export const HotkeyProvider: React.FunctionComponent<IHotkeyProviderProps> = (pr
       if (e.key === 'Escape') {
         (document.activeElement as HTMLElement).blur()
       }
-      if (e.key === 'h') {
+      if (e.key === 'h' && e.altKey) {
         openPopup('shortcuts')
       }
       if (e.key === 'o' && e.altKey) {

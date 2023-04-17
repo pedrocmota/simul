@@ -8,6 +8,7 @@ interface IDividerStyled {
 export const DividerStyled: React.FunctionComponent<IDividerStyled & BoxProps> = ({children, ...props}) => {
   return (
     <Flex
+      width="100%"
       alignItems="center"
       _before={{
         content: '""',

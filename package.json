@@ -1,7 +1,15 @@
 {
   "name": "simul",
+  "displayName": "Simul",
+  "description": "Simul é um software de simulação de controle automático",
   "version": "0.1.0",
+  "license": "MIT",
   "private": true,
+  "author": {
+    "name": "Pedro Henrique Cerqueira Mota",
+    "email": "pedrocerqueiramota@gmail.com",
+    "url": "https://github.com/pedrocmota"
+  },
   "scripts": {
     "start": "react-app-rewired start",
     "build": "react-app-rewired build && node afterbuild.js",
@@ -11,13 +19,6 @@
     "@chakra-ui/react": "^2.5.5",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
-    "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
-    "@types/jest": "^27.5.2",
-    "@types/node": "^16.18.23",
-    "@types/react": "^18.0.33",
-    "@types/react-dom": "^18.0.11",
     "framer-motion": "^10.10.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -26,12 +27,13 @@
     "react-scripts": "5.0.1",
     "react-toast-notifications": "^2.5.1",
     "recharts": "^2.5.0",
-    "typescript": "^4.9.5",
-    "uuid": "^9.0.0",
-    "web-vitals": "^2.1.4",
-    "zipson": "^0.2.12"
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
+    "@types/jest": "^27.5.2",
+    "@types/node": "^16.18.23",
+    "@types/react": "^18.0.33",
+    "@types/react-dom": "^18.0.11",
     "@types/uuid": "^9.0.1",
     "@typescript-eslint/eslint-plugin": "^5.57.1",
     "@typescript-eslint/parser": "^5.57.1",
@@ -43,7 +45,8 @@
     "html-inline-css-webpack-plugin": "^1.11.1",
     "html-inline-script-webpack-plugin": "^3.1.0",
     "html-webpack-plugin": "^5.5.0",
-    "react-app-rewired": "^2.2.1"
+    "react-app-rewired": "^2.2.1",
+    "typescript": "^4.9.5"
   },
   "browserslist": {
     "production": [

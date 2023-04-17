@@ -12,7 +12,7 @@ import {useInstanceHeaderManager} from './contexts/InstanceHeaderManager'
 import {useHotkey} from './contexts/HotkeyContext'
 import {usePopupManager} from './contexts/PopupManager'
 import {TabHeader} from './tabs/TabHeader'
-import {InstanceContainer} from './instance/InstanceContainer'
+import {InstanceDataManagerProvider} from './contexts/InstanceDataManager'
 
 export const Main = () => {
   return (
@@ -287,11 +287,10 @@ const TabManager: React.FunctionComponent = () => {
         )}
         {((tabIndex === -1 && selectedInstance !== '') && (
           <>
-            {InstanceManager.getAllInstances().map((instance, index) => (
-              <InstanceContainer
-                id={`instance-container-${index}`}
+            {InstanceManager.getAllInstances().map((instance) => (
+              <InstanceDataManagerProvider
                 key={instance.id}
-                selected={instance.id === selectedInstance}
+                isSelected={instance.id === selectedInstance}
                 instanceID={instance.id}
               />
             ))}

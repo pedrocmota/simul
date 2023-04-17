@@ -93,6 +93,18 @@ const TabHeader: React.FunctionComponent<ITabHeader> = (props) => {
       }}
     >
       <Text pr="8px">{instance.name}</Text>
+      |
+      <Text
+        pl="8px"
+        pr="8px"
+        color={
+          instance.status === 'CREATING' ? '#637BE4' : instance.status === 'RUNNING' ? '#51E76A' : '#ECBA16'
+        }
+      >
+        {instance.status === 'CREATING' && 'Em preparação'}
+        {instance.status === 'RUNNING' && 'Em execução'}
+        {instance.status === 'STOPPED' && 'Parado'}
+      </Text>
       <Tooltip label="Fecha instância" aria-label="Fecha instância">
         <Box
           onClick={onDelete}

@@ -3,7 +3,7 @@ import {ChakraProvider, FormControl, FormLabel, Input, extendTheme, forwardRef, 
 const activeLabelStyles = {
   transform: 'scale(0.85) translateY(-24px)',
   fontWeight: 'medium',
-  color: 'gray.500'
+  color: 'gray.400'
 }
 
 export const theme = extendTheme({
@@ -28,8 +28,8 @@ export const theme = extendTheme({
               left: 0,
               zIndex: 2,
               position: 'absolute',
-              backgroundColor: 'white',
-              color: '#8e8e8e',
+              backgroundColor: '#282a36',
+              color: '#F8F8F8',
               fontWeight: 'normal',
               pointerEvents: 'none',
               mx: 3,
