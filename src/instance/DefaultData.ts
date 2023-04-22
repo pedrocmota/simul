@@ -7,9 +7,7 @@ export const defaultInstanceData: IInstanceData = {
   bp: 100,
   derivatimeTime: 0,
   integralTime: 0,
-  integralVC: 0,
   initial: {
-    sp: 50,
     pv: 50,
     mv: 50
   },

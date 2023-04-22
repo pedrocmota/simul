@@ -2,7 +2,7 @@
   "name": "simul",
   "displayName": "Simul",
   "description": "Simul é um software de simulação de controle automático",
-  "version": "0.1.0",
+  "version": "dev-0.0.0.1",
   "license": "MIT",
   "private": true,
   "author": {
@@ -24,6 +24,7 @@
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.43.9",
     "react-icons": "^4.8.0",
+    "react-number-format": "^5.1.4",
     "react-scripts": "5.0.1",
     "react-toast-notifications": "^2.5.1",
     "recharts": "^2.5.0",

@@ -20,9 +20,7 @@ export interface IInstanceData {
   bp: number,
   derivatimeTime: number,
   integralTime: number,
-  integralVC: number,
   initial: {
-    sp: number,
     pv: number,
     mv: number
   },

@@ -285,16 +285,12 @@ const TabManager: React.FunctionComponent = () => {
         {(tabIndex === 1) && (
           <DocsTab />
         )}
-        {((tabIndex === -1 && selectedInstance !== '') && (
-          <>
-            {InstanceManager.getAllInstances().map((instance) => (
-              <InstanceDataManagerProvider
-                key={instance.id}
-                isSelected={instance.id === selectedInstance}
-                instanceID={instance.id}
-              />
-            ))}
-          </>
+        {InstanceManager.getAllInstances().map((instance) => (
+          <InstanceDataManagerProvider
+            key={instance.id}
+            isSelected={instance.id === selectedInstance}
+            instanceID={instance.id}
+          />
         ))}
       </Flex>
     </>
