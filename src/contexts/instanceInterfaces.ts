@@ -1,8 +1,9 @@
 export type InstanceStatus = 'RUNNING' | 'STOPPED' | 'CREATING'
 
 export interface IInstanceHeaderData {
+  position: number,
   id: string,
-  name: string,
+  title: string,
   status: InstanceStatus
 }
 
@@ -15,15 +16,19 @@ export interface ITelemetry {
 
 export interface IInstanceData {
   malha: 'OPEN' | 'CLOSED',
+  controlTypes: {
+    proportional: boolean,
+    integral: boolean,
+    derative: boolean,
+    onOff: boolean
+  },
   control: 'MANUAL' | 'AUTOMATIC',
   bias: number,
   bp: number,
   derivatimeTime: number,
   integralTime: number,
-  initial: {
-    pv: number,
-    mv: number
-  },
+  hysteresis: number,
+  initialPV: number,
   telemetry: {
     sp: ITelemetry,
     pv: ITelemetry,

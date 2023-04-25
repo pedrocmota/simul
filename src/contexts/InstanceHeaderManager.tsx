@@ -11,7 +11,8 @@ export interface IInstanceContext {
   setInstanceHeaderData: React.Dispatch<React.SetStateAction<IInstanceHeaderData[]>>,
   createInstance: () => void,
   deleteInstance: (id: string) => void,
-  setInstanceStatus: (id: string, ststus: InstanceStatus) => void
+  setInstanceStatus: (id: string, ststus: InstanceStatus) => void,
+  setInstanceTitle: (id: string, title: string) => void
 }
 
 export const InstanceContext = createContext<IInstanceContext>({} as IInstanceContext)
@@ -52,8 +53,9 @@ export const InstanceHeaderProvider: React.FunctionComponent<{children: React.Re
     if (instanceHeaderData.length >= 9) return
     const newID = uuid()
     setInstanceHeaderData((old) => [...old, {
+      position: old.length + 1,
       id: newID,
-      name: `Instância sem nome (${instanceHeaderData.length + 1})`,
+      title: '',
       status: 'CREATING'
     }])
     setTabIndex(-1)
@@ -69,6 +71,12 @@ export const InstanceHeaderProvider: React.FunctionComponent<{children: React.Re
     )])
   }
 
+  const setInstanceTitle = (id: string, title: string) => {
+    setInstanceHeaderData([...instanceHeaderData.map((instance) =>
+      instance.id === id ? {...instance, title: title} : instance
+    )])
+  }
+
   return (
     <InstanceContext.Provider value={{
       getInstance,
@@ -78,7 +86,8 @@ export const InstanceHeaderProvider: React.FunctionComponent<{children: React.Re
       setInstanceHeaderData,
       createInstance,
       deleteInstance,
-      setInstanceStatus
+      setInstanceStatus,
+      setInstanceTitle
     }}>
       {props.children}
     </InstanceContext.Provider>

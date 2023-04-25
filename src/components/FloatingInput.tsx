@@ -20,6 +20,9 @@ export const theme = extendTheme({
             'input:not(:placeholder-shown) + label, .chakra-select__wrapper + label, textarea:not(:placeholder-shown) ~ label': {
               ...activeLabelStyles
             },
+            'input:disabled + label': {
+              color: 'gray.600'
+            },
             label: {
               display: 'flex',
               alignItems: 'center',

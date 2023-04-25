@@ -26,7 +26,7 @@ const TabHeader: React.FunctionComponent<ITabHeader> = (props) => {
             Deseja deletar a instância:
           </Text>
           <Text fontWeight="bold" mt="10px">
-            {instance.name}?
+            {instance.title || `Instância sem nome (${instance.position})`}?
           </Text>
         </>
       )
@@ -92,7 +92,7 @@ const TabHeader: React.FunctionComponent<ITabHeader> = (props) => {
         }
       }}
     >
-      <Text pr="8px">{instance.name}</Text>
+      <Text pr="8px">{instance.title || `Instância sem nome (${instance.position})`}</Text>
       |
       <Text
         pl="8px"

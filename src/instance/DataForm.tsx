@@ -10,12 +10,17 @@ import {useInstanceDataManager} from '../contexts/InstanceDataManager'
 import {NumericFormat} from 'react-number-format'
 
 const DataForm: React.FunctionComponent = () => {
-  const {handleSubmit, formState: {isSubmitting, errors, isDirty}, control, reset} = useForm<IInstanceData>({
+  const {getValues, setValue, handleSubmit, formState: {isSubmitting, errors, isDirty}, control, reset} = useForm<IInstanceData>({
     mode: 'onChange', defaultValues: defaultInstanceData
   })
 
   const instanceID = useInstanceDataManager().instanceID
-  const {setInstanceStatus} = useInstanceHeaderManager()
+  const {setInstanceStatus, getInstance, setInstanceTitle} = useInstanceHeaderManager()
+  const instancePrimaryData = getInstance(instanceID)
+  const currentValues = getValues()
+  // console.log(getValues())
+
+  console.log(currentValues)
 
   return (
     <Flex
@@ -33,6 +38,7 @@ const DataForm: React.FunctionComponent = () => {
         <DividerStyled>
           Dados básicos
         </DividerStyled>
+
         <FloatingInput
           id="instanceTitle"
           placeholder="Título da instância"
@@ -40,38 +46,119 @@ const DataForm: React.FunctionComponent = () => {
           wrapper={{
             mt: '15px'
           }}
+          maxLength={50}
+          value={instancePrimaryData.title}
+          onChange={(e) => {
+            setInstanceTitle(instanceID, e.target.value)
+          }}
         />
-        <Select
-          placeholder="Selecione o tipo da malha"
-          height="45px"
-          mt="15px"
-        >
-          <option value="option1">Malha fechada</option>
-          <option value="option2">Malha aberta</option>
-        </Select>
+
+        <Controller
+          name="malha"
+          control={control}
+          rules={{
+            required: true,
+            min: 1
+          }}
+          render={({field}) => (
+            <Select
+              placeholder="Selecione o tipo da malha"
+              height="45px"
+              mt="15px"
+              value={field.value}
+              onChange={(e) => {
+                field.onChange(e.target.value)
+              }}
+            >
+              <option value="OPEN">Malha fechada</option>
+              <option value="CLOSED">Malha aberta</option>
+            </Select>
+          )}
+        />
+
         <DividerStyled mt="35px">
           Dados de controle
         </DividerStyled>
-
         <Stack spacing={5} direction="row" mt="15px">
-          <Checkbox colorScheme="red" size="lg" defaultChecked>
-            Proporcional
-          </Checkbox>
-          <Checkbox colorScheme="green" size="lg" defaultChecked>
-            Integral
-          </Checkbox>
-          <Checkbox colorScheme="blue" size="lg" defaultChecked>
-            Derivativa
-          </Checkbox>
-          <Checkbox colorScheme="orange" size="lg" defaultChecked>
-            On/Off
-          </Checkbox>
+          <Controller
+            name="controlTypes.proportional"
+            control={control}
+            render={({field}) => (
+              <Checkbox
+                colorScheme="red"
+                size="lg"
+                isChecked={field.value}
+                onChange={(e) => {
+                  setValue('controlTypes.onOff', false, {shouldValidate: true})
+                  field.onChange(e.target.checked)
+                }}
+              >
+                Proporcional
+              </Checkbox>
+            )}
+          />
+          <Controller
+            name="controlTypes.integral"
+            control={control}
+            render={({field}) => (
+              <Checkbox
+                colorScheme="green"
+                size="lg"
+                isChecked={field.value}
+                onChange={(e) => {
+                  setValue('controlTypes.proportional', true, {shouldValidate: true})
+                  setValue('controlTypes.onOff', false, {shouldValidate: true})
+                  field.onChange(e.target.checked)
+                }}
+              >
+                Integral
+              </Checkbox>
+            )}
+          />
+          <Controller
+            name="controlTypes.derative"
+            control={control}
+            render={({field}) => (
+              <Checkbox
+                colorScheme="blue"
+                size="lg"
+                isChecked={field.value}
+                onChange={(e) => {
+                  setValue('controlTypes.proportional', true, {shouldValidate: true})
+                  setValue('controlTypes.onOff', false, {shouldValidate: true})
+                  field.onChange(e.target.checked)
+                }}
+              >
+                Derivativa
+              </Checkbox>
+            )}
+          />
+          <Controller
+            name="controlTypes.onOff"
+            control={control}
+            render={({field}) => (
+              <Checkbox
+                colorScheme="yellow"
+                size="lg"
+                isChecked={field.value}
+                onChange={(e) => {
+                  setValue('controlTypes.proportional', false, {shouldValidate: true})
+                  setValue('controlTypes.integral', false, {shouldValidate: true})
+                  setValue('controlTypes.derative', false, {shouldValidate: true})
+                  field.onChange(e.target.checked)
+                }}
+              >
+                ON/OFF
+              </Checkbox>
+            )}
+          />
         </Stack>
+
         <Controller
           name="bp"
           control={control}
           rules={{
-            required: true
+            required: currentValues.controlTypes.onOff === false
           }}
           render={({field}) => (
             <NumericFormat
@@ -82,6 +169,11 @@ const DataForm: React.FunctionComponent = () => {
                   field.onChange(vc.floatValue)
                 }
               }}
+              isAllowed={(values) => {
+                const {formattedValue, floatValue} = values
+                return formattedValue === '' || floatValue <= 500 && floatValue > 0
+              }}
+              disabled={currentValues.controlTypes.proportional === false}
               autoComplete="off"
               allowNegative={false}
               placeholder="Banda proporcional"
@@ -109,6 +201,10 @@ const DataForm: React.FunctionComponent = () => {
                 if (vc.floatValue !== undefined) {
                   field.onChange(vc.floatValue)
                 }
+              }}
+              isAllowed={(values) => {
+                const {formattedValue, floatValue} = values
+                return formattedValue === '' || floatValue <= 100 && floatValue > 0
               }}
               autoComplete="off"
               allowNegative={false}
@@ -138,6 +234,11 @@ const DataForm: React.FunctionComponent = () => {
                   field.onChange(vc.floatValue)
                 }
               }}
+              isAllowed={(values) => {
+                const {formattedValue, floatValue} = values
+                return formattedValue === '' || floatValue <= 500 && floatValue > 0
+              }}
+              disabled={currentValues.controlTypes.integral === false}
               autoComplete="off"
               allowNegative={false}
               placeholder="Tempo integral"
@@ -166,6 +267,11 @@ const DataForm: React.FunctionComponent = () => {
                   field.onChange(vc.floatValue)
                 }
               }}
+              isAllowed={(values) => {
+                const {formattedValue, floatValue} = values
+                return formattedValue === '' || floatValue <= 500 && floatValue > 0
+              }}
+              disabled={currentValues.controlTypes.derative === false}
               autoComplete="off"
               allowNegative={false}
               placeholder="Tempo derivativo"
@@ -178,12 +284,8 @@ const DataForm: React.FunctionComponent = () => {
           )}
         />
 
-        <DividerStyled mt="35px">
-          Valores iniciais
-        </DividerStyled>
-
         <Controller
-          name="initial.mv"
+          name="hysteresis"
           control={control}
           rules={{
             required: true
@@ -198,9 +300,14 @@ const DataForm: React.FunctionComponent = () => {
                   field.onChange(vc.floatValue)
                 }
               }}
+              isAllowed={(values) => {
+                const {formattedValue, floatValue} = values
+                return formattedValue === '' || floatValue <= 100 && floatValue > 0
+              }}
+              disabled={currentValues.controlTypes.onOff === false}
               autoComplete="off"
               allowNegative={false}
-              placeholder="Valor inicial do MV"
+              placeholder="Histerese"
               height="45px"
               wrapper={{
                 mt: '27px'
@@ -211,7 +318,7 @@ const DataForm: React.FunctionComponent = () => {
         />
 
         <Controller
-          name="initial.pv"
+          name="initialPV"
           control={control}
           rules={{
             required: true
@@ -228,7 +335,7 @@ const DataForm: React.FunctionComponent = () => {
               }}
               autoComplete="off"
               allowNegative={false}
-              placeholder="Valor inicial do PV"
+              placeholder="Valor inicial da variável de processo"
               height="45px"
               wrapper={{
                 mt: '27px'
@@ -253,43 +360,17 @@ const DataForm: React.FunctionComponent = () => {
           <option value="level">Controle de nível</option>
         </Select>
 
-        <Controller
-          name="initial.pv"
-          control={control}
-          rules={{
-            required: true
-          }}
-          render={({field}) => (
-            <NumericFormat
-              type="tel"
-              value={field.value}
-              suffix="%"
-              onValueChange={(vc) => {
-                if (vc.floatValue !== undefined) {
-                  field.onChange(vc.floatValue)
-                }
-              }}
-              autoComplete="off"
-              allowNegative={false}
-              placeholder="Valor inicial do PV"
-              height="45px"
-              wrapper={{
-                mt: '27px'
-              }}
-              customInput={FloatingInput}
-            />
-          )}
-        />
-
 
         <Button
-          mt="20px"
+          width="100%"
+          mt="40px"
+          mb="40px"
           colorScheme="blue"
           onClick={() => {
             setInstanceStatus(instanceID, 'RUNNING')
           }}
         >
-          Iniciar
+          Iniciar simulador
         </Button>
       </Box>
     </Flex>
